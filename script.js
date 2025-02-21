@@ -58,4 +58,14 @@ function addTask() {
     taskList.appendChild(taskItem);
     taskInput.value = "";
     updateSummary();
+
+    
 }
+    
+document.getElementById("taskList").addEventListener("click", function(event) {
+    let target = event.target;
+    
+    if (target.classList.contains("delete-task")) {
+        target.closest(".flex").remove();
+        updateSummary();
+    }
