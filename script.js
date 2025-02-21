@@ -3,20 +3,18 @@ addEventListener("beforeunload", (event) => {
     event.preventDefault();
     event.returnValue = " ";
 });
-
-const addTask = document.getElementById("addTask");
- let taskInput = document.getElementById("taskInput");
-
-addTask.addEventListener("click", (event) =>{
+document.getElementById("addTask").addEventListener("click", (event) =>{
     event.preventDefault();
 
 }
 
 );
-addTask.addEventListener("click", addTask);
-taskInput.addEventListener("keypress", function(event) {
+document.getElementById("addTask").addEventListener("click", addTask);
+
+document.getElementById("taskInput").addEventListener("keypress", function(event) {
     if (event.key === "Enter") addTask();
 });
+
 function addTask() {
     let taskInput = document.getElementById("taskInput");
     let taskText = taskInput.value.trim();
@@ -42,7 +40,8 @@ function addTask() {
     errorMessage2.classList.add("hidden");
 
     }
-          
+
+    
     let rowCount = taskList.children.length + 1;
     let taskItem = document.createElement("div");
     taskItem.classList.add("flex", "p-2", "border-b", "break-words", "text-sm", "md:text-base");
