@@ -58,35 +58,30 @@ function addTask() {
     taskList.appendChild(taskItem);
     taskInput.value = "";
     updateSummary();
-
-    
 }
-    
-document.getElementById("taskList").addEventListener("click", function (event) {
+
+document.getElementById("taskList").addEventListener("click", function(event) {
     let target = event.target;
-    let taskItem = target.closest(".flex");
-
-    if (!taskItem) return; // Ensure a valid task item is clicked
-
-    if (target.classList.contains("delete-task")) {
-        if (confirm("Are you sure you want to delete this task?")) {
-            taskItem.remove();
-            updateSummary();
-        }
-    } 
     
-    else if (target.classList.contains("edit-task")) {
-        let taskTextElement = taskItem.querySelector(".task-text");
-        let currentTask = taskTextElement.textContent.trim();
-        
-        let newTask = prompt("Edit your task:", currentTask);
-        if (newTask !== null) { // Check for cancel action
-            newTask = newTask.trim();
-            if (newTask.length > 0) {
-                taskTextElement.textContent = newTask;
-            } else {
-                alert("Task cannot be empty!");
-            }
-        }
+    if (target.classList.contains("delete-task")) {
+        target.closest(".flex").remove();
+        updateSummary();
+    }
+    
+    if (target.classList.contains("edit-task")) {
+        let taskText = target.closest(".flex").querySelector(".task-text");
+        let newTask = prompt("Edit your task:", taskText.textContent);
+        if (newTask) taskText.textContent = newTask.trim();
     }
 });
+
+document.getElementById("taskList").addEventListener("change", function(event) {
+    if (event.target.classList.contains("task-status")) updateSummary();
+});
+
+function updateSummary() {
+    let total = document.querySelectorAll("#taskList .flex").length;
+    let completed = document.querySelectorAll(".task-status:checked").length;
+    let pending = total - completed;
+    document.getElementById("taskSummary").innerText = `${total} Total, ${completed} Completed, ${pending} Pending`;
+}
