@@ -62,10 +62,31 @@ function addTask() {
     
 }
     
-document.getElementById("taskList").addEventListener("click", function(event) {
+document.getElementById("taskList").addEventListener("click", function (event) {
     let target = event.target;
-    
+    let taskItem = target.closest(".flex");
+
+    if (!taskItem) return; // Ensure a valid task item is clicked
+
     if (target.classList.contains("delete-task")) {
-        target.closest(".flex").remove();
-        updateSummary();
+        if (confirm("Are you sure you want to delete this task?")) {
+            taskItem.remove();
+            updateSummary();
+        }
+    } 
+    
+    else if (target.classList.contains("edit-task")) {
+        let taskTextElement = taskItem.querySelector(".task-text");
+        let currentTask = taskTextElement.textContent.trim();
+        
+        let newTask = prompt("Edit your task:", currentTask);
+        if (newTask !== null) { // Check for cancel action
+            newTask = newTask.trim();
+            if (newTask.length > 0) {
+                taskTextElement.textContent = newTask;
+            } else {
+                alert("Task cannot be empty!");
+            }
+        }
     }
+});
